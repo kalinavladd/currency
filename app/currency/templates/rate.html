@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    table td, table th{
+        padding: 0.5rem 0.75rem;
+        border: black 1px solid;
+        vertical-align: middle;
+    }
+</style>
+
+<table>
+  <tr>
+    <td><b>ID</b></td>
+    <td><b>SALE</b></td>
+    <td><b>BUE</b></td>
+  </tr>
+  {% for rat in rate %}
+  <tr>
+    <td>{{ rat.id }}</td>
+    <td>{{ rat.sale }}</td>
+    <td>{{ rat.buy }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

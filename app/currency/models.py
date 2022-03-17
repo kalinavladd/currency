@@ -17,3 +17,11 @@ class ContactUs(models.Model):
     @property
     def message_short_descriptions(self):
         return truncatechars(self.message, 50)
+
+
+class Rate(models.Model):
+    types = models.CharField(max_length=5)
+    source = models.CharField(max_length=64)
+    created = models.DateTimeField()
+    buy = models.DecimalField(max_digits=10, decimal_places=2)
+    sale = models.DecimalField(max_digits=10, decimal_places=2)

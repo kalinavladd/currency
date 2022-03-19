@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="{% url 'create_source' %}">Create Source</a>
+<table>
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Source_url</b></td>
+    </tr>
+    {% for source in sources %}
+    <tr>
+        <td>{{ source.name }}</td>
+        <td>{{ source.source_url }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

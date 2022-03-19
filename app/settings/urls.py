@@ -23,4 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', cur_view.contactus_list),
     path('rate', cur_view.rate_views),
+    path('sources/', cur_view.source_views, name='sources'),
+    path('sources/create/', cur_view.create_source, name='create_source')
 ]

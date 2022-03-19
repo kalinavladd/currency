@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ContactUs, Rate
+from .models import ContactUs, Rate, Source
 
 
 @admin.register(ContactUs)
@@ -11,3 +11,8 @@ class ContactUsAdmin(admin.ModelAdmin):
 @admin.register(Rate)
 class RateAdmin(admin.ModelAdmin):
     list_display = ('id', 'sale', 'buy',)
+
+
+@admin.register(Source)
+class SourceAdmin(admin.ModelAdmin):
+    list_display = ('source_url', 'name',)

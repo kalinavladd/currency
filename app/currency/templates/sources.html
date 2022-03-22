@@ -8,12 +8,17 @@
         <td><b>Name</b></td>
         <td><b>Source_url</b></td>
     </tr>
-    {% for source in sources %}
+    {% for source in source_list %}
     <tr>
         <td>{{ source.name }}</td>
-        <td>{{ source.source_url }}</td>
+        <td>{{ source.source_url }} 
+            <a href="{% url 'update_source' source.id %}">Update</a>
+            <a href="{% url 'delete_source' source.id %}">Delete</a>
+        </td>
     </tr>
+
     {% endfor %}
+
 </table>
 
 {% endblock %}

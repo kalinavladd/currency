@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from .models import ContactUs, Rate, Source
 from .forms import SourceForm
-
+from .models import ContactUs, Rate, Source
 # Create your views here.
 
 
@@ -16,17 +17,26 @@ def rate_views(requests):
     return render(requests, "rate.html", context={"rate": rate})
 
 
-def source_views(request):
-    sources = Source.objects.all()
-    return render(request, 'sources.html', context={'sources': sources})
+class SourceListViews(ListView):
+    queryset = Source.objects.all().order_by('-id')
+    template_name = 'sources.html'
 
 
-def create_source(request):
-    if request.method == "POST":
-        form = SourceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('sources')
-    else:
-        form = SourceForm()
-    return render(request, 'source_create.html', context={'form': form})
+class SourceCreateViews(CreateView):
+    model = Source
+    template_name = "source_create.html"
+    form_class = SourceForm
+    success_url = reverse_lazy('sources')
+
+
+class SourceUpdateViews(UpdateView):
+    model = Source
+    template_name = "source_update.html"
+    form_class = SourceForm
+    success_url = reverse_lazy('sources')
+
+
+class SourceDeleteViews(DeleteView):
+    queryset = Source.objects.all()
+    template_name = 'source_delete.html'
+    success_url = reverse_lazy('sources')

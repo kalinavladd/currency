@@ -1,6 +1,6 @@
 from django.conf import settings
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
@@ -39,9 +39,31 @@ class ContactUsCreateView(CreateView):
         return redirect
 
 
-def rate_views(requests):
-    rate = Rate.objects.all()
-    return render(requests, "rate.html", context={"rate": rate})
+class RateListView(ListView):
+    queryset = Rate.objects.all()
+    template_name = 'rate.html'
+    context_object_name = 'rate'
+
+
+class RateUpdateView(UserPassesTestMixin, UpdateView):
+    model = Rate
+    template_name = 'rate_update.html'
+    fields = ('types', 'source', 'created', 'buy', 'sale',)
+    success_url = reverse_lazy('rate')
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+
+
+class RateDeleteView(UserPassesTestMixin, DeleteView):
+    model = Rate
+    template_name = 'rate_delete.html'
+    success_url = reverse_lazy('rate')
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
 
 
 class SourceListViews(ListView):

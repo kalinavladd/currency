@@ -14,12 +14,17 @@
     <td><b>ID</b></td>
     <td><b>SALE</b></td>
     <td><b>BUE</b></td>
+    <td><b>TYPES</b></td>
   </tr>
   {% for rat in rate %}
   <tr>
     <td>{{ rat.id }}</td>
     <td>{{ rat.sale }}</td>
     <td>{{ rat.buy }}</td>
+    <td>{{ rat.types }}</td>
+
+    <a href="{% url 'rate_update' rat.id %}">Update</a>
+    <a href="{% url 'rate_delete' rat.id %}">Delete</a>
   </tr>
   {% endfor %}
 </table>

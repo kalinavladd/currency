@@ -19,14 +19,20 @@ class ContactUs(models.Model):
         return truncatechars(self.message, 50)
 
 
+class Source(models.Model):
+    source_url = models.URLField(max_length=255)
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
 class Rate(models.Model):
     types = models.CharField(max_length=5)
-    source = models.CharField(max_length=64)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
     created = models.DateTimeField()
     buy = models.DecimalField(max_digits=10, decimal_places=2)
     sale = models.DecimalField(max_digits=10, decimal_places=2)
 
-
-class Source(models.Model):
-    source_url = models.URLField(max_length=255)
-    name = models.CharField(max_length=64)
+    def __str__(self):
+        return self.types

@@ -2,18 +2,18 @@
 
 {% block content %}
 
-<a href="{% url 'create_source' %}">Create Source</a>
-<table>
+<a href="{% url 'create_source' %}" class="btn btn-info">Create Source</a>
+<table class="table table-striped">
     <tr>
         <td><b>Name</b></td>
         <td><b>Source_url</b></td>
     </tr>
-    {% for source in source_list %}
+    {% for sour in sources %}
     <tr>
-        <td>{{ source.name }}</td>
-        <td>{{ source.source_url }} 
-            <a href="{% url 'update_source' source.id %}">Update</a>
-            <a href="{% url 'delete_source' source.id %}">Delete</a>
+        <td>{{ sour.name }}</td>
+        <td>{{ sour.source_url }}
+            <a href="{% url 'update_source' sour.id %}">Update</a>
+            <a href="{% url 'delete_source' sour.id %}">Delete</a>
         </td>
     </tr>
 

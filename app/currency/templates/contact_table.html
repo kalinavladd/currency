@@ -4,27 +4,29 @@
 
     <a href="{% url 'create_contact' %}">Send message</a>
 
-<style>
-    table td, table th{
-        padding: 0.5rem 0.75rem;
-        border: black 1px solid;
-        vertical-align: middle;
-    }
-</style>
+    <style>
+        table td, table th {
+            padding: 0.5rem 0.75rem;
+            border: black 1px solid;
+            vertical-align: middle;
+        }
+    </style>
+    <div class="container">
+        <table class="table table-striped">
+            <tr>
+                <td><b>Email</b></td>
+                <td><b>Subject</b></td>
+                <td><b>Message</b></td>
+            </tr>
+            {% for cont in contactus %}
+                <tr>
+                    <td>{{ cont.email_from }}</td>
+                    <td>{{ cont.subject }}</td>
+                    <td>{{ cont.message }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 
-<table>
-  <tr>
-    <td><b>Email</b></td>
-    <td><b>Subject</b></td>
-    <td><b>Message</b></td>
-  </tr>
-  {% for cont in contactus %}
-  <tr>
-    <td>{{ cont.email_from }}</td>
-    <td>{{ cont.subject }}</td>
-    <td>{{ cont.message }}</td>
-  </tr>
-  {% endfor %}
-</table>
 
 {% endblock %}

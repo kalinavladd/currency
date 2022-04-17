@@ -6,7 +6,7 @@ from .models import ContactUs, Source
 class SourceForm(forms.ModelForm):
     class Meta:
         model = Source
-        fields = ('name', 'source_url',)
+        fields = ('name', 'source_url', 'image')
 
 
 class ContactUsForm(forms.ModelForm):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import truncatechars
+from django.templatetags.static import static
 
 
 class ContactUs(models.Model):
@@ -22,9 +23,16 @@ class ContactUs(models.Model):
 class Source(models.Model):
     source_url = models.URLField(max_length=255)
     name = models.CharField(max_length=64)
+    image = models.ImageField(upload_to='avatars', default=None, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    def avatar_url(self):
+        if self.image:
+            return self.image.url
+
+        return static('avatar.png')
 
 
 class Rate(models.Model):

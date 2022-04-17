@@ -41,6 +41,8 @@ INSTALLED_APPS = [
 
     'currency',
     'accounts',
+
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +128,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'currency/static'
+]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'currency' / 'static'
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -141,3 +149,6 @@ EMAIL_HOST_PASSWORD = 'X4qq3a8w'
 
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'
+
+MEDIA_ROOT = BASE_DIR / '..' / 'static_content' / 'media'
+MEDIA_URL = '/media/'

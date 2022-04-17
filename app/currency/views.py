@@ -40,7 +40,7 @@ class ContactUsCreateView(CreateView):
 
 
 class RateListView(ListView):
-    queryset = Rate.objects.all()
+    queryset = Rate.objects.all().select_related('source')
     template_name = 'rate.html'
     context_object_name = 'rate'
 
@@ -67,8 +67,9 @@ class RateDeleteView(UserPassesTestMixin, DeleteView):
 
 
 class SourceListViews(ListView):
-    queryset = Source.objects.all().order_by('-id').select_related('rate')
+    queryset = Source.objects.all().order_by('-id')
     template_name = 'sources.html'
+    context_object_name = 'sources'
 
 
 class SourceCreateViews(CreateView):

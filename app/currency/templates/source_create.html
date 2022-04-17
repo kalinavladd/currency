@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Source</button>
+    <form method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="Create Source" %}
     </form>
 
 {% endblock %}

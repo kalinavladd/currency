@@ -67,7 +67,7 @@ class RateDeleteView(UserPassesTestMixin, DeleteView):
 
 
 class SourceListViews(ListView):
-    queryset = Source.objects.all().order_by('-id')
+    queryset = Source.objects.all().order_by('-id').select_related('rate')
     template_name = 'sources.html'
 
 

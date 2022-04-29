@@ -9,10 +9,12 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from celery.schedules import crontab
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'accounts',
 
     'django_bootstrap5',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -144,11 +147,53 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 
-EMAIL_HOST_PASSWORD = 
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'
 
 MEDIA_ROOT = BASE_DIR / '..' / 'static_content' / 'media'
 MEDIA_URL = '/media/'
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = '6379'
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_ACCEPT_CONTENT = ['applications/json']
+# CELERY_ACCEPT_CONTENT = ['json','application/text']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_QUEUES = (
+#  Queue('exportToExcelQueue', Exchange('exchange'), routing_key='default'),
+# )
+# registry.enable('json')
+# registry.enable('application/text')
+
+CELERY_BEAT_SCHEDULE = {
+    'parse_privatbank': {
+        'task': 'currency.tasks.parse_privatbank',
+        'schedule': crontab(minute='*/1'),
+    },
+    'parse_monobank': {
+        'task': 'currency.tasks.parse_monobank',
+        'schedule': crontab(minute='*/1'),
+    },
+    'parse_vkurse': {
+        'task': 'currency.tasks.parse_vkurse',
+        'schedule': crontab(minute='*/1'),
+    },
+    'parse_kredo': {
+        'task': 'currency.tasks.parse_kredo',
+        'schedule': crontab(minute='*/1'),
+    },
+    'parse_otp': {
+        'task': 'currency.tasks.parse_otp',
+        'schedule': crontab(minute='*/1'),
+    },
+    'parse_credit_agricole': {
+        'task': 'currency.tasks.parse_credit_agricole',
+        'schedule': crontab(minute='*/1'),
+    },
+}

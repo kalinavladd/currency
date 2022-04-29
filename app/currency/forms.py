@@ -1,15 +1,25 @@
+from currency.models import Rate, Source
+
 from django import forms
 
-from .models import ContactUs, Source
+
+class RateForm(forms.ModelForm):
+    class Meta:
+        model = Rate
+        fields = (
+            'id',
+            'buy',
+            'sale',
+            'type',
+            'source',
+        )
 
 
 class SourceForm(forms.ModelForm):
     class Meta:
         model = Source
-        fields = ('name', 'source_url', 'image')
-
-
-class ContactUsForm(forms.ModelForm):
-    class Meta:
-        model = ContactUs
-        fields = ('email_from', 'subject', 'message')
+        fields = (
+            'source_url',
+            'name',
+            'logo'
+        )

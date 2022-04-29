@@ -1,46 +1,48 @@
 from django.db import models
-from django.template.defaultfilters import truncatechars
 from django.templatetags.static import static
+from . import custom_choices as cmc
 
 
-class ContactUs(models.Model):
-    email_from = models.EmailField(max_length=150, unique=True)
-    subject = models.CharField(max_length=100)
-    message = models.CharField(max_length=250)
-
-    class Meta:
-        verbose_name = 'Contact'
-        verbose_name_plural = 'Contacts'
-
-    def __str__(self):
-        return self.subject
-
-    @property
-    def message_short_descriptions(self):
-        return truncatechars(self.message, 50)
-
-
-class Source(models.Model):
-    source_url = models.URLField(max_length=255)
-    name = models.CharField(max_length=64)
-    image = models.ImageField(upload_to='avatars', default=None, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-    def avatar_url(self):
-        if self.image:
-            return self.image.url
-
-        return static('avatar.png')
+def logo_upload_to(instance, filename):
+    return f'logo/{instance.name}/{filename}'
 
 
 class Rate(models.Model):
-    types = models.CharField(max_length=5)
-    source = models.ForeignKey(Source, on_delete=models.CASCADE)
-    created = models.DateTimeField()
-    buy = models.DecimalField(max_digits=10, decimal_places=2)
-    sale = models.DecimalField(max_digits=10, decimal_places=2)
+    buy = models.DecimalField(max_digits=6, decimal_places=2)
+    sale = models.DecimalField(max_digits=6, decimal_places=2)
+    created = models.DateTimeField(auto_now_add=True)
+    type = models.PositiveSmallIntegerField(    # noqa = A003
+        choices=cmc.RateTypeChoices.choices,
+        default=cmc.RateTypeChoices.USD,
+    )
+    source = models.ForeignKey('currency.Source', on_delete=models.CASCADE)
+
+
+class ContactUs(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=128)
+    reply_to = models.EmailField()
+    subject = models.CharField(max_length=128)
+    body = models.CharField(max_length=1024)
+    raw_content = models.TextField()
+
+
+class Source(models.Model):
+    source_url = models.CharField(max_length=255)
+    name = models.CharField(max_length=64)
+    code_name = models.CharField(max_length=64, unique=True)
+    logo = models.FileField(
+            upload_to=logo_upload_to,
+            default=None,
+            null=True,
+            blank=True
+        )
+
+    @property
+    def logo_url(self):
+        if self.logo:
+            return self.logo.url
+        return static('static/avatar.png')
 
     def __str__(self):
-        return self.types
+        return self.name

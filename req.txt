@@ -17,9 +17,9 @@
 # django-filter==21.1
 # dnspython==2.2.1
 # eventlet==0.33.0
-# flake8==4.0.1
-# flake8-builtins==1.5.3
-# flake8-print==4.0.0
+flake8==4.0.1
+flake8-builtins==1.5.3
+flake8-print==4.0.0
 # flower==1.0.0
 # greenlet==1.1.2
 # humanize==4.0.0

@@ -1,11 +1,27 @@
 from bs4 import BeautifulSoup
 from celery import shared_task
+from django.conf import settings
+from django.core.mail import send_mail
 
 from . import consts
 from . import custom_choices as cmc
 from .utils import get_or_create, to_decimal
 
 import requests
+
+
+@shared_task(
+    autoretry_for=(ConnectionError,),
+    retry_kwargs={'max_retries': 5},
+)
+def send_email_in_background(subject, body):
+    send_mail(
+        subject,
+        body,
+        settings.DEFAULT_FROM_EMAIL,
+        [settings.DEFAULT_FROM_EMAIL],
+        fail_silently=False,
+    )
 
 
 @shared_task

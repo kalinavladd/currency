@@ -2,7 +2,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework.reverse import reverse
 
-from .factories import UserFactory, AdminUserFactory
+from api.v1.factories import UserFactory, AdminUserFactory
 from currency.models import ContactUs
 
 

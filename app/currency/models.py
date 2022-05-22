@@ -14,6 +14,7 @@ class Rate(models.Model):
     type = models.PositiveSmallIntegerField(    # noqa = A003
         choices=cmc.RateTypeChoices.choices,
         default=cmc.RateTypeChoices.USD,
+        null=True
     )
     source = models.ForeignKey('currency.Source', on_delete=models.CASCADE)
 

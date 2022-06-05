@@ -53,3 +53,6 @@ djangorestframework-simplejwt
 drf-yasg
 faker
 factory-boy
+psycopg2-binary
+uwsgi
+flower

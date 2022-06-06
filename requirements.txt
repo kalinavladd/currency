@@ -56,3 +56,4 @@ factory-boy
 psycopg2-binary
 uwsgi
 flower
+django-silk
